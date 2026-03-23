@@ -1,0 +1,29 @@
+stages:
+  load_data:
+    cmd: python src/data_load.py
+    outs:
+      - data/raw/data.csv
+
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+      - data/raw/data.csv
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - data/processed/train.csv
+      - params.yaml
+    outs:
+      - models/model.pkl
+
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+      - data/processed/test.csv
+      - models/model.pkl
+    metrics:
+      - metrics/metrics.json
