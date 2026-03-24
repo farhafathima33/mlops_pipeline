@@ -35,7 +35,8 @@ def train():
 
     best_model = None
     best_acc = 0
-
+    
+    mlflow.set_tracking_uri("file:./mlruns")
     mlflow.set_experiment("mlops_experiment")
 
     for name, model in models.items():
